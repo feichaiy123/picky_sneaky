@@ -31,6 +31,8 @@ class ScraperBot:
         self.headless = headless
         self.target_program = self.preference['target_program']
         self._load_config()
+    
+    def date_manager (self): 
         self.get_target_date()
         self.target_date = ""
         weekday_number = self.target_date_original.weekday()
@@ -58,10 +60,6 @@ class ScraperBot:
         chrome_options.add_argument("--ignore-certificate-errors")
         self.driver = webdriver.Chrome(options=chrome_options)
 
-    def date_manager (): 
-        # How to figure out the date we want to look at? ???
-        return 0 
-    
     def login (self):
         user_email = self.username
         user_password = self.password
@@ -182,6 +180,7 @@ class ScraperBot:
         print(f"🕰️ Bot triggered at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         try:
             self._init_driver(self.headless)  # Initialize driver at each run
+            self.date_manager() #The target date should be calculated each day !!!
             self.login()
             self.scrape_programs()
             self.booked_programs = self.book_session()
@@ -317,7 +316,6 @@ class ScraperBot:
     def start_scheduler(self, run_time):
         print(f"⏰ Scheduling bot to run every day at {run_time}...")
 
-
         # Schedule the bot to run at the specified time
         schedule.every().day.at(run_time).do(self.run_bot)
         # Keep the scheduler 
@@ -330,5 +328,5 @@ class ScraperBot:
             
 if __name__ == "__main__":
     bot = ScraperBot(headless=False, config_path="config.yaml")
-    bot.start_scheduler("23:01") #Every day at 11:pm
+    bot.start_scheduler("23:00") #Every day at 11:pm
 
