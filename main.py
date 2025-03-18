@@ -60,6 +60,8 @@ class ScraperBot:
         chrome_options.add_argument("--ignore-certificate-errors")
         self.driver = webdriver.Chrome(options=chrome_options)
 
+
+    
     def login (self):
         user_email = self.username
         user_password = self.password
@@ -317,7 +319,10 @@ class ScraperBot:
         print(f"⏰ Scheduling bot to run every day at {run_time}...")
 
         # Schedule the bot to run at the specified time
-        schedule.every().day.at(run_time).do(self.run_bot)
+        try:
+            schedule.every().day.at(run_time).do(self.run_bot)
+        except: 
+            pass
         # Keep the scheduler 
         # running
         # check every minute 
