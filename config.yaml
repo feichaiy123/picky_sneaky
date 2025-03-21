@@ -2,17 +2,16 @@
 
 # Programs to target for booking
 target_program:
-  - "Level 2 Open Play(2.75-3.5)"
-  - "Level 2 Open Play(3.0-3.75)"
-  - "All Levels Open Play"
+  - "Level 2 Open Play"
+  - "Level 3 Open Play"
 
 # Desired booking time range
 target_times:
-  - "5:00 PM - 9:00 PM"
-  - "5:00 PM - 9:00 PM"
-  - "5:00 PM - 9:00 PM"
-  - "5:00 PM - 9:00 PM"
-  - "5:00 PM - 9:00 PM"
+  - "6:00 PM - 9:00 PM"
+  - "6:00 PM - 9:00 PM"
+  - "6:00 PM - 9:00 PM"
+  - "6:00 PM - 9:00 PM"
+  - "6:00 PM - 9:00 PM"
   - "10:00 AM - 6:00 PM"
   - "10:00 AM - 6:00 PM"
 

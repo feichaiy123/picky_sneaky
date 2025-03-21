@@ -133,7 +133,7 @@ class ScraperBot:
             try:
                 # Extract program title
                 title = program.find_element(By.TAG_NAME, "h1").text
-                if title not in self.target_program: 
+                if not any (t_program in title for t_program in self.target_program):
                     continue 
                 # Extract time
                 t = program.find_element(By.CLASS_NAME, "ui.text.bold.very.small.grey").text
@@ -193,6 +193,7 @@ class ScraperBot:
 
     def book_session (self): 
         booked_list = []
+        confirm_button = False
         for program in self.programs:
             link = program['Link']
             self.driver.get (link)
@@ -215,6 +216,8 @@ class ScraperBot:
 
             # Iterate through each session and extract details
             for session in session_cards:
+                if confirm_button:
+                    return
                 try:
                     price = None 
                     date = None 
@@ -265,13 +268,12 @@ class ScraperBot:
                     split_date = session_obj['date'].split(' ')
                     reordered_date = f"{split_date[1]} {split_date[0]}"
                     if reordered_date == self.target_date:
-                        session.click()
                         session_time = session_obj['time']
                         (start_time, end_time) = small_time_formatter(session_time)
                         if not time_checker (self.target_start_time, self.target_end_time, start_time, end_time):
                             continue 
                         try:
-
+                            session.click()
                             # Locate the button by text using XPath
                             try: 
                                 next_button = self.driver.find_element(By.XPATH, "//span[normalize-space()='Next']")
@@ -296,6 +298,7 @@ class ScraperBot:
                                     confirm_button = self.driver.find_element(By.XPATH, "//div[contains(@class, 'ui button primary') and text()='Confirm']")  
                                     if confirm_button: 
                                         self.driver.execute_script("arguments[0].click();", confirm_button)
+                                        confirm_button = True
                                         print("Successfully clicked the 'confirm' button.")
                             except: 
                                 pass
